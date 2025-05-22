@@ -2,31 +2,33 @@ import { useNavigate } from "react-router";
 import { ListagemTarefaStyled } from "./ListagemTarefaStyle";
 import { FaPlus } from "react-icons/fa";
 import Task from "../../components/Task/Task";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+type Tarefa = {
+  id: number;
+  nome: string;
+  descricao: string;
+  status: string;
+}
 
 export default function ListagemTarefa() {
-    const navigate = useNavigate()
+    const [listTarefa, setListTarefa] = useState<Tarefa[]>([])  
+  
+  const navigate = useNavigate()
     
-    const list = [
-      {
-        titleTask: 'tarefa 1'
-      },
-      {
-        titleTask: 'tarefa 2'
-      },
-      {
-        titleTask: 'tarefa 3'
-      },
-      {
-        titleTask: 'tarefa 4'
-      },
-      {
-        titleTask: 'tarefa 5'
-      },
+  function getData(){
+    axios.get('http://localhost:3000/tarefas').then((response) => {
+      setListTarefa(response.data)
+    })
+  }
 
-    ]
+  useEffect(() => {
+    getData()
+  }, [])
   
     function renderList(){
-      return list.map((item) => <Task titleTask={item.titleTask}/>)
+      return listTarefa.map((item) => <Task onClick={() => navigate(`/tarefa/${item.id}`)} titleTask={item.nome}/>)
     }
 
     return (

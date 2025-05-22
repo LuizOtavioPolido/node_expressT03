@@ -21,6 +21,7 @@ const Title = styled.div`
     display: flex;
     flex-grow: 1;
     margin-left: 10px;
+    cursor: pointer;
 `
 
 const TrashButton = styled.div`
