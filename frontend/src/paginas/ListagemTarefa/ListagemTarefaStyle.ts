@@ -44,7 +44,7 @@ const BotaoAdicionar = styled.button`
 const ItemLista = styled.div`
     width: 100%;
     height: 50px;
-    background-color: #f00;
+    /* background-color: #f00; */
 `
 
 export const ListagemTarefaStyled = {
