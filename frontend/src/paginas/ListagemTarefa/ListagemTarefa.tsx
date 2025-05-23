@@ -17,18 +17,26 @@ export default function ListagemTarefa() {
   
   const navigate = useNavigate()
     
+  useEffect(() => {
+    getData()
+  }, [])
+
+  function removeItem(id:number){
+    axios.delete(`http://localhost:3000/tarefas/${id}`).then(() => {
+      getData()
+    })
+  }
+
   function getData(){
     axios.get('http://localhost:3000/tarefas').then((response) => {
       setListTarefa(response.data)
     })
   }
 
-  useEffect(() => {
-    getData()
-  }, [])
+ 
   
     function renderList(){
-      return listTarefa.map((item) => <Task onClick={() => navigate(`/tarefa/${item.id}`)} titleTask={item.nome}/>)
+      return listTarefa.map((item) => <Task onRemove={() => removeItem(item.id)} onClick={() => navigate(`/tarefa/${item.id}`)} titleTask={item.nome}/>)
     }
 
     return (

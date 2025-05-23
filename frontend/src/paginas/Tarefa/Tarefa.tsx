@@ -12,6 +12,8 @@ export default function Tarefa(){
     const params = useParams()
     
     useEffect(() => {
+        console.log(params);
+        
       if(params.id){
         getTarefa()
       }
@@ -23,6 +25,23 @@ export default function Tarefa(){
             setNomeTarefa(response.data.nome)
             setDescricaoTarefa(response.data.descricao)
             setStatusTarefa(response.data.status)
+        })
+    }
+
+    function updateTarefa(){
+        const body = {
+            nome:nomeTarefa, 
+            descricao:descricaoTarefa, 
+            status:statusTarefa
+        }
+
+        axios.put(`http://localhost:3000/tarefas/${params.id}`, body).then(() => {
+            alert('Tarefa atualizada com sucesso!')
+            setTimeout(() => {
+                navigate('/listagemTarefa')
+            }, 2000)
+        }).catch((error) => {
+            console.log(error)
         })
     }
 
@@ -53,7 +72,7 @@ export default function Tarefa(){
                     <option value={'Incompleto'}>Incompleto</option>
                 </TarefaStyled.Select>
 
-                <TarefaStyled.Button onClick={createTarefa}>Criar</TarefaStyled.Button>
+                <TarefaStyled.Button onClick={params.id ? updateTarefa : createTarefa}>{params.id ? 'Atualizar' : 'Criar'}</TarefaStyled.Button>
             </TarefaStyled.Card>
         </TarefaStyled.Container>
     )
